@@ -1,2 +1,5 @@
-# study_batch
-Spring Batch 관련 Study 용 입니다.
+🛠️ 기술 스택
+
+Java
+- Spring Batch
+  - Spring Batch 관련 스터디
