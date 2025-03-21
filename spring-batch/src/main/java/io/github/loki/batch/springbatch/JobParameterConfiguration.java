@@ -2,6 +2,7 @@
 //
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.batch.core.Job;
+//import org.springframework.batch.core.JobParameters;
 //import org.springframework.batch.core.Step;
 //import org.springframework.batch.core.StepContribution;
 //import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -12,18 +13,17 @@
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //
-///**
-// * Job Instance 생성
-// * */
+//import java.util.Map;
+//
 //@Configuration
 //@RequiredArgsConstructor
-//public class JobInstanceConfiguration {
+//public class JobParameterConfiguration {
 //
 //    private final JobBuilderFactory jobBuilderFactory;
 //    private final StepBuilderFactory stepBuilderFactory;
 //
 //    @Bean
-//    public Job job() {
+//    public Job batchJob() {
 //        return jobBuilderFactory.get("job")
 //                .start(step1())
 //                .next(step2())
@@ -36,6 +36,21 @@
 //                .tasklet(new Tasklet() {
 //                    @Override
 //                    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+//
+//                        // Step에서 Job Parameter정보를 갖고오기(*)
+//                        JobParameters jobParameters = stepContribution.getStepExecution().getJobExecution().getJobParameters();
+//                        jobParameters.getString("name");
+//                        jobParameters.getLong("seq");
+//                        jobParameters.getDate("date");
+//                        jobParameters.getDouble("age");
+//
+//                        //chunkContext
+//                        Map<String, Object> jobParameters1 = chunkContext.getStepContext().getJobParameters();
+//                        jobParameters1.get("name");
+//                        jobParameters1.get("seq");
+//                        jobParameters1.get("date");
+//                        jobParameters1.get("age");
+//
 //                        return RepeatStatus.FINISHED;
 //                    }
 //                })
