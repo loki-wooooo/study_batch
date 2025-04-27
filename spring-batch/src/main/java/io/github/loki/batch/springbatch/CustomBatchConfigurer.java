@@ -5,10 +5,12 @@ import org.springframework.batch.core.repository.support.JobRepositoryFactoryBea
 import org.springframework.boot.autoconfigure.batch.BasicBatchConfigurer;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
+import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
 
+@Configuration
 public class CustomBatchConfigurer extends BasicBatchConfigurer {
 
     private final DataSource dataSource;
@@ -20,10 +22,13 @@ public class CustomBatchConfigurer extends BasicBatchConfigurer {
 
 
     @Override
-    public JobRepository createJobRepository() {
-        JobRepositoryFactoryBean jobRepositoryFactoryBean;
-        jobRepositoryFactoryBean = new JobRepositoryFactoryBean();
-        return super.createJobRepository();
+    public JobRepository createJobRepository() throws Exception {
+        JobRepositoryFactoryBean jobRepositoryFactoryBean = new JobRepositoryFactoryBean();
+        jobRepositoryFactoryBean.setDataSource(dataSource);
+        jobRepositoryFactoryBean.setTransactionManager(getTransactionManager());
+        jobRepositoryFactoryBean.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED");
+        jobRepositoryFactoryBean.setTablePrefix("SYSTEM_");
+        return jobRepositoryFactoryBean.getObject();
     }
 
 }
