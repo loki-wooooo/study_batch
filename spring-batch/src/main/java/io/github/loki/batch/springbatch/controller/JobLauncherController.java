@@ -37,6 +37,7 @@ public class JobLauncherController {
                 .toJobParameters();
 //        jobLauncher.run(job, jobParameters);
 
+        // 현재 배치는 비동기로 처리할 시 setExecutor 내용을 비동기로 처리할 수 있따.
         SimpleJobLauncher simpleJobLauncher = (SimpleJobLauncher) basicBatchConfigurer.getJobLauncher();
         simpleJobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
         jobLauncher.run(job, jobParameters);
