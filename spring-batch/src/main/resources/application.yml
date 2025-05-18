@@ -18,8 +18,11 @@ spring:
     batch:
         jdbc:
             initialize-schema: embedded
+            table-prefix: SYSTEM_ # 해당 prefix로 batch table을 생성함
         job:
-            enabled: false
+            enabled: false # 자동실행 방지
+            names: ${job.name:NONE} #name에 해당하는 job을 실행함, ${job.name} -> job.name에 해당하는 값을 동적으로 처리하기 위해 처리
+
 ---
 spring:
     config:
